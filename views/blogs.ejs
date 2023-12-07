@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="main.css">
+        <title> ourLibrary Dashboard </title>
+
+    </head>
+
+    <body>
+
+        <header class="header">
+
+            <div class="header__logo">
+
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 505 103">
+                <text transform="translate(0 81.7)" style="font-size: 98.1px;"><tspan x="0" y="0" style="font-family: MavenPro-Medium, &apos;Maven Pro&apos;; font-weight: 500;">our</tspan><tspan x="153.5" y="0" style="font-family: MavenPro-Black, &apos;Maven Pro&apos;; font-weight: 800;">Library</tspan></text></svg>
+
+            </div>
+
+            <div class="header__nav">
+
+                <a href="/" class="header__link header__link--green"> عـودة </a>
+
+            </div>
+
+        </header>
+
+        <div class="curve-bottom">
+
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 15.6">
+
+                <path d="M0,0C74,32,197-7,298,10S512,0,512,0"/>
+                
+            </svg>
+
+        </div>
+
+        <main>
+
+            <div class="blogs">
+
+                <% if (blog.length == 0) { %>
+
+                    <div class="blogs__item">
+
+                        <div class="blogs__heading"> لايوجد مقــال الان </div>
+                        <div class="blogs__key"></div>
+    
+                    </div>
+
+                <% } %>
+
+                <% if (blog.length > 0) { %>
+
+                    <% for (let i = 0; i < blog.length; i++) { %>
+                    
+                        <div class="blogs__item" id="blog-<%=i%>">
+
+                            <div class="blogs__heading"> <%= blog[i].title %> </div>
+                            <div class="blogs__key"> <%= blog[i]._id %> </div>
+        
+                            <div class="blogs__delete"> 
+
+                                <a class="blogs__link" id="blogs-btn" data-delete="<%= blog[i]._id %>"> حذف </a>
+
+                            </div>
+        
+                        </div>
+
+                    <% } %>
+
+                <% } %> 
+                
+            </div>            
+
+        </main>
+
+        <footer class="about">
+
+            <div class="about__desc"> &copy; 2023 Hosam Umbaddi | <span> ourLibrarySite.onrender.com </span> dashboard </div>
+
+        </footer>
+        
+    </body>
+
+    <script>
+        
+        const btn = document.querySelector('#blogs-btn')
+
+        btn.addEventListener('click', (event) => {
+            
+            event.preventDefault()
+            const endpoint = `/blog/${btn.dataset.delete}`
+            
+            fetch(endpoint, {
+            
+                method: 'DELETE'
+            })
+            
+            .then(response => response.json())
+            .then(data => window.location.href = data.redirect)
+            .catch(error => console.log(error))
+        })
+
+    </script>
+
+</html>
